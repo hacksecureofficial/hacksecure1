@@ -1,0 +1,45 @@
+[
+  {
+    "id": "fa2a00e6-a50d-4072-bc3f-a09114458f7d",
+    "name": "Adi",
+    "email": "indiedevadi@gmail.com",
+    "password": "$2a$10$1E1uWDnEIK.QI/Sd97mDn.0vhH3vpHto9OuRDpdrDziiB7NaPm.e6",
+    "vip_subscription": true
+  },
+  {
+    "id": "dd81aa10-79ad-4e80-b2ad-a79b11e079b3",
+    "name": "Hacker",
+    "email": "hackerboy5916@gmail.com",
+    "password": "$2a$10$HnMA6q5n/8N4wyepLoXXBOjw2incGzvqEFqBjySIYhWzisMLDBW7q",
+    "vip_subscription": true
+  },
+  {
+    "id": "4a95be71-c371-4e54-acf6-2202d52b89e4",
+    "name": "adiphone",
+    "email": "adiphone5916@gmail.com",
+    "password": "$2a$10$Ce53ceyyL8g64TDbcMoj0.PVSIQdR2pJ04jjOhIrldiwWwYRznuyG",
+    "vip_subscription": true,
+    "verified": false,
+    "verificationToken": "47f36486-00bf-4f04-ad15-244f8c97c263",
+    "resetToken": "0151b08c-c0d8-4bb3-a105-d2effd8b9cb4",
+    "resetTokenExpiry": 1737444666643
+  },
+  {
+    "id": "a1091fcb-78b8-49c3-973e-5591a92df61b",
+    "name": "Mog",
+    "email": "admin@gmail.com",
+    "password": "$2a$10$9PxeGCeqs6r3uGgtI.9wwOiE3zbLiYlEXb5HA7bKe4426Sc/Ihogi",
+    "vip_subscription": false,
+    "verified": false,
+    "verificationToken": "983850f5-a762-45be-87bb-66fe6e5d6bab"
+  },
+  {
+    "id": "cdc3d8eb-91a4-4005-9991-32089a534181",
+    "name": "ALI3N",
+    "email": "flix.businessz@gmail.com",
+    "password": "$2a$10$yGyI/vcixjGA90.7MgkdFOs35spxOtHLtSnH.GBPgdIJlGBf/aqRK",
+    "vip_subscription": false,
+    "verified": false,
+    "verificationToken": "2359cac2-067f-4da8-86c1-f774fa1bfb92"
+  }
+]
