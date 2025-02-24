@@ -2,7 +2,7 @@ import { promises as fs } from "fs"
 import { NextResponse } from "next/server"
 import path from "path"
 import { getServerSession } from "next-auth/next"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route" // Updated import path
+import { authOptions } from "@/app/api/auth/auth.config"
 
 const dataDirectory = path.join(process.cwd(), "data")
 
