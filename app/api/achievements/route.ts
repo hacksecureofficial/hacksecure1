@@ -1,17 +1,18 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextRequest, NextResponse } from 'next/server'
 import certifications from '../../../data/certificates.json' // Import certifications data
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { userId } = req.cookies // Get userId from cookies (authentication assumed)
+// Handle GET requests to /api/achievements
+export async function GET(req: NextRequest) {
+  const userId = req.cookies.get('userId')?.value // Get userId from cookies
 
   if (!userId) {
-    return res.status(401).json({ message: 'Unauthorized' }) // If no userId, return unauthorized
+    return NextResponse.json({ message: 'Unauthorized' }, { status: 401 }) // Return 401 if no userId
   }
 
-  // Filter certifications based on logged-in user's userId
+  // Filter certifications for the logged-in user
   const userAchievements = certifications.filter(
     (certification) => certification.userId === userId
   )
 
-  return res.status(200).json(userAchievements) // Return filtered data
+  return NextResponse.json(userAchievements, { status: 200 }) // Return user's achievements
 }
