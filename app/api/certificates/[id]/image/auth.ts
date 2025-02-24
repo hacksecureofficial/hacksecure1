@@ -1,12 +1,14 @@
-import NextAuth from "next-auth"
-import CredentialsProvider from "next-auth/providers/credentials"
-import { compare } from "bcrypt"
-import fs from "fs/promises"
-import path from "path"
+import NextAuth from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { compare } from "bcrypt";
+import fs from "fs/promises";
+import path from "path";
 
-const dataDirectory = path.join(process.cwd(), "data")
+// ✅ Directory where user data is stored
+const dataDirectory = path.join(process.cwd(), "data");
 
-export const authOptions = {
+// ✅ NextAuth configuration with CredentialsProvider
+const authOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -16,26 +18,28 @@ export const authOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          return null
+          return null; // 🚫 Missing credentials
         }
 
-        const usersData = await fs.readFile(path.join(dataDirectory, "users.json"), "utf8")
-        const users = JSON.parse(usersData)
+        try {
+          const usersData = await fs.readFile(path.join(dataDirectory, "users.json"), "utf8");
+          const users = JSON.parse(usersData);
 
-        const user = users.find((u: any) => u.email === credentials.email)
-        if (!user) {
-          return null
-        }
+          const user = users.find((u: any) => u.email === credentials.email);
+          if (!user) {
+            return null; // 🚫 User not found
+          }
 
-        const isPasswordValid = await compare(credentials.password, user.password)
-        if (!isPasswordValid) {
-          return null
-        }
+          const isPasswordValid = await compare(credentials.password, user.password);
+          if (!isPasswordValid) {
+            return null; // 🚫 Invalid password
+          }
 
-        return {
-          id: user.id,
-          name: user.name,
-          email: user.email,
+          // ✅ Return user object on successful authentication
+          return { id: user.id, name: user.name, email: user.email };
+        } catch (error) {
+          console.error("Authorization error:", error);
+          return null; // 🚫 Return null on error
         }
       },
     }),
@@ -43,23 +47,25 @@ export const authOptions = {
   callbacks: {
     async jwt({ token, user }: { token: any; user: any }) {
       if (user) {
-        token.id = user.id
+        token.id = user.id; // ✅ Attach user ID to JWT token
       }
-      return token
+      return token;
     },
     async session({ session, token }: { session: any; token: any }) {
       if (session.user) {
-        session.user.id = token.id
+        session.user.id = token.id; // ✅ Attach token ID to session user
       }
-      return session
+      return session;
     },
   },
   pages: {
-    signIn: "/signin",
+    signIn: "/signin", // ✅ Custom sign-in page
   },
-}
+};
 
-const handler = NextAuth(authOptions)
+// ✅ Initialize NextAuth with authOptions
+const handler = NextAuth(authOptions);
 
-export { handler as GET, handler as POST }
-
+// ✅ Export handler for GET and POST requests (no duplicate authOptions export)
+export { handler as GET, handler as POST };
+export type { authOptions }; // ✅ Use type export if needed without causing duplication
