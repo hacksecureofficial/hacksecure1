@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // output: "export",
+  output: "export",
   reactStrictMode: true,
   images: {
     domains: ["hebbkx1anhila5yf.public.blob.vercel-storage.com"], // Added external image domain
