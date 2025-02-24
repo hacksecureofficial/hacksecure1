@@ -2,23 +2,23 @@ import { promises as fs } from "fs"
 import { NextResponse } from "next/server"
 import path from "path"
 import { getServerSession } from "next-auth/next"
-import { authOptions } from "./auth"
+import { authOptions } from "@/app/api/auth/[...nextauth]/route" // Updated import path
 
 const dataDirectory = path.join(process.cwd(), "data")
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
+  const session = await getServerSession(authOptions)
+  if (!session || !session.user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  }
+
+  const certificateId = params.id
+
   try {
-    const session = await getServerSession(authOptions)
-
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const certificateId = params.id
     const certificateData = await fs.readFile(path.join(dataDirectory, "certificates.json"), "utf8")
     const certificates = JSON.parse(certificateData || "[]")
+    const certificate = certificates.find((cert: any) => cert.id === certificateId)
 
-    const certificate = certificates.find((cert: { id: string; userId: string }) => cert.id === certificateId)
     if (!certificate || certificate.userId !== session.user.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
@@ -31,7 +31,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
       },
     })
   } catch (error) {
-    console.error("Failed to retrieve certificate image:", error)
     return NextResponse.json({ error: "Failed to retrieve certificate image" }, { status: 500 })
   }
 }
+
